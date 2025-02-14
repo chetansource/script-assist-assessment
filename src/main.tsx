@@ -24,7 +24,7 @@ export const routes = [
 	  children: [
 		{
 		  path: '/',
-		  element: <Landing />,
+		  element: <Navigate to="/login" />,
 		},
 		{
 		  path: '/login',
@@ -49,7 +49,7 @@ export const routes = [
 		// Fallback route for 404 errors
 		{
 		  path: '*',
-		  element: <Navigate to="/" />,
+		  element: <Navigate to="/login" />,
 		},
 	  ],
 	},
