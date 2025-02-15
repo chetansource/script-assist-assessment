@@ -1,7 +1,7 @@
-
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Card, Text, Title, Container, List, Grid, Skeleton, Image } from '@mantine/core';
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { Card, Text, Title, Container, List, Grid, Image } from "@mantine/core";
+import { CharacterDetailsSkeleton } from "../../components/CharacterDetailsSkeleton";
 
 export const CharacterDetail = () => {
   const { id } = useParams<{ id: string }>(); // Get character ID from the URL
@@ -17,7 +17,7 @@ export const CharacterDetail = () => {
       try {
         const response = await fetch(`https://swapi.dev/api/people/${id}/`);
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         const data = await response.json();
         setCharacter(data);
@@ -29,24 +29,23 @@ export const CharacterDetail = () => {
 
         // Fetch films
         const filmsData = await Promise.all(
-            data.films.map(async (filmUrl: string) => {
-              const filmResponse = await fetch(filmUrl);
-              return filmResponse.json();
-            })
-          );
-          setFilms(filmsData);
-  
-          // Fetch starships
-          const starshipsData = await Promise.all(
-            data.starships.map(async (starshipUrl: string) => {
-              const starshipResponse = await fetch(starshipUrl);
-              return starshipResponse.json();
-            })
-          );
-          setStarships(starshipsData);
+          data.films.map(async (filmUrl: string) => {
+            const filmResponse = await fetch(filmUrl);
+            return filmResponse.json();
+          })
+        );
+        setFilms(filmsData);
 
+        // Fetch starships
+        const starshipsData = await Promise.all(
+          data.starships.map(async (starshipUrl: string) => {
+            const starshipResponse = await fetch(starshipUrl);
+            return starshipResponse.json();
+          })
+        );
+        setStarships(starshipsData);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       } finally {
         setIsLoading(false);
       }
@@ -56,13 +55,7 @@ export const CharacterDetail = () => {
   }, [id]);
 
   if (isLoading) {
-    return (
-      <Container>
-        <Skeleton height={50} width="100%" mb="md" />
-        <Skeleton height={20} width="100%" mb="md" />
-        <Skeleton height={20} width="100%" mb="md" />
-      </Container>
-    );
+    return <CharacterDetailsSkeleton />;
   }
 
   if (!character) {
@@ -72,12 +65,12 @@ export const CharacterDetail = () => {
   return (
     <Container
       style={{
-        padding: '2rem',
-        maxWidth: '800px',
-        margin: '0 auto',
+        padding: "2rem",
+        maxWidth: "800px",
+        margin: "0 auto",
       }}
     >
-      <Title align="center" mb="md" style={{ color: '#3D4C7E' }}>
+      <Title align="center" mb="md" style={{ color: "#3D4C7E" }}>
         {character.name}
       </Title>
 
@@ -97,25 +90,39 @@ export const CharacterDetail = () => {
             </Text>
             <List spacing="sm" mt="sm">
               <List.Item>
-                <Text><strong>Height:</strong> {character.height}</Text>
+                <Text>
+                  <strong>Height:</strong> {character.height}
+                </Text>
               </List.Item>
               <List.Item>
-                <Text><strong>Mass:</strong> {character.mass}</Text>
+                <Text>
+                  <strong>Mass:</strong> {character.mass}
+                </Text>
               </List.Item>
               <List.Item>
-                <Text><strong>Hair Color:</strong> {character.hair_color}</Text>
+                <Text>
+                  <strong>Hair Color:</strong> {character.hair_color}
+                </Text>
               </List.Item>
               <List.Item>
-                <Text><strong>Skin Color:</strong> {character.skin_color}</Text>
+                <Text>
+                  <strong>Skin Color:</strong> {character.skin_color}
+                </Text>
               </List.Item>
               <List.Item>
-                <Text><strong>Eye Color:</strong> {character.eye_color}</Text>
+                <Text>
+                  <strong>Eye Color:</strong> {character.eye_color}
+                </Text>
               </List.Item>
               <List.Item>
-                <Text><strong>Birth Year:</strong> {character.birth_year}</Text>
+                <Text>
+                  <strong>Birth Year:</strong> {character.birth_year}
+                </Text>
               </List.Item>
               <List.Item>
-                <Text><strong>Gender:</strong> {character.gender}</Text>
+                <Text>
+                  <strong>Gender:</strong> {character.gender}
+                </Text>
               </List.Item>
             </List>
           </Grid.Col>
@@ -127,16 +134,24 @@ export const CharacterDetail = () => {
             {homeworld ? (
               <List spacing="sm" mt="sm">
                 <List.Item>
-                  <Text><strong>Name:</strong> {homeworld.name}</Text>
+                  <Text>
+                    <strong>Name:</strong> {homeworld.name}
+                  </Text>
                 </List.Item>
                 <List.Item>
-                  <Text><strong>Climate:</strong> {homeworld.climate}</Text>
+                  <Text>
+                    <strong>Climate:</strong> {homeworld.climate}
+                  </Text>
                 </List.Item>
                 <List.Item>
-                  <Text><strong>Terrain:</strong> {homeworld.terrain}</Text>
+                  <Text>
+                    <strong>Terrain:</strong> {homeworld.terrain}
+                  </Text>
                 </List.Item>
                 <List.Item>
-                  <Text><strong>Population:</strong> {homeworld.population}</Text>
+                  <Text>
+                    <strong>Population:</strong> {homeworld.population}
+                  </Text>
                 </List.Item>
               </List>
             ) : (
@@ -153,7 +168,9 @@ export const CharacterDetail = () => {
           {films.length > 0 ? (
             films.map((film) => (
               <List.Item key={film.url}>
-                <Text><strong>{film.title}</strong> (Released: {film.release_date})</Text>
+                <Text>
+                  <strong>{film.title}</strong> (Released: {film.release_date})
+                </Text>
               </List.Item>
             ))
           ) : (
@@ -169,15 +186,15 @@ export const CharacterDetail = () => {
           {starships.length > 0 ? (
             starships.map((starship) => (
               <List.Item key={starship.url}>
-                <Text><strong>{starship.name}</strong> (Model: {starship.model})</Text>
+                <Text>
+                  <strong>{starship.name}</strong> (Model: {starship.model})
+                </Text>
               </List.Item>
             ))
           ) : (
             <Text>No starships found.</Text>
           )}
         </List>
-
-        
       </Card>
     </Container>
   );
